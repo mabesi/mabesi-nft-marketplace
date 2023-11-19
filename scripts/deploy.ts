@@ -2,12 +2,21 @@ import { ethers } from "hardhat";
 
 async function main() {
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy();
+  const NFTMarket = await ethers.getContractFactory("NFTMarket");
+  const nftMarket = await NFTMarket.deploy();
 
-  await lock.waitForDeployment();
+  await nftMarket.waitForDeployment();
+  const marketAddress = await nftMarket.getAddress();
 
-  console.log(`Contract deployed to ${lock.getAddress()}`);
+  console.log(`NFTMarket deployed to ${marketAddress}`);
+
+  const NFTCollection = await ethers.getContractFactory("NFTCollection");
+  const nftCollection = await NFTCollection.deploy(marketAddress);
+
+  await nftCollection.waitForDeployment();
+  const collectionAddress = await nftCollection.getAddress();
+
+  console.log(`NFTCollection deployed to ${collectionAddress}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
