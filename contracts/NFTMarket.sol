@@ -6,8 +6,9 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract NFTMarket {
+contract NFTMarket is ReentrancyGuard {
 
     using Counters for Counters.Counter;
     Counters.Counter private _itemIds;
@@ -40,7 +41,7 @@ contract NFTMarket {
         uint price
     );
 
-    function createMarketItem(address nftContract, uint tokenId, uint price) public payable {
+    function createMarketItem(address nftContract, uint tokenId, uint price) public payable nonReentrant {
         require(price > 0, "Price cannot be zero");
         require(msg.value == listingPrice, "Value must be equal listing price");
 
