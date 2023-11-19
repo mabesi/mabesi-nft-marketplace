@@ -1,7 +1,8 @@
 {
   "scripts": {
     "test": "npx hardhat coverage",
-    "deploy": "npx hardhat run scripts/deploy.ts --network mumbai"
+    "deploy": "npx hardhat run scripts/deploy.ts --network mumbai",
+    "verify": "npx hardhat verify --network mumbai"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.3",

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.20;
 
 // Uncomment this line to use console.log
 // import "hardhat/console.sol";
@@ -104,7 +104,7 @@ contract NFTMarket is ReentrancyGuard {
         uint itemCount = 0;
 
         for (uint i=1; i<=totalItemCount; ++i) {
-            if (marketItems[i].seller == msg.sender) {
+            if (marketItems[i].owner == msg.sender) {
                 ++itemCount;
             }
         }
@@ -113,7 +113,30 @@ contract NFTMarket is ReentrancyGuard {
         uint currentIndex = 0;
 
         for (uint i=1; i<=totalItemCount; ++i) {
-            if (marketItems[i].seller == msg.sender) {
+            if (marketItems[i].owner == msg.sender) {
+                items[currentIndex] = marketItems[i];
+                ++currentIndex;
+            }
+        }
+
+        return items;
+    }
+
+    function fetchItemsCreated() public view returns(MarketItem[] memory) {
+        uint totalItemCount = _itemIds.current();
+        uint itemCount = 0;
+
+        for(uint i=1; i <= totalItemCount; ++i){
+            if(marketItems[i].seller == msg.sender){
+                ++itemCount;
+            }
+        }
+
+        MarketItem[] memory items = new MarketItem[](itemCount);
+        uint currentIndex = 0;
+
+        for(uint i=1; i <= totalItemCount; ++i){
+            if(marketItems[i].seller == msg.sender){
                 items[currentIndex] = marketItems[i];
                 ++currentIndex;
             }
